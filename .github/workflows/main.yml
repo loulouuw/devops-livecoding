@@ -26,14 +26,14 @@ jobs:
         uses: actions/checkout@v2.5.0
 
       - name: Login to DockerHub
-        run: docker login -u ${{ secrets.NCD_DOCKER }} -p ${{ secrets.MDP_DOCKER }}
+        run: docker login -u ${{ secrets.NDC_DOCKER }} -p ${{ secrets.MDP_DOCKER }}
 
       # Build and push the backend Docker image
       - name: Build image and push backend
         uses: docker/build-push-action@v3
         with:
           context: ./simple-api
-          tags: ${{ secrets.NCD_DOCKER }}/tp-devops-simple-api-backend:latest
+          tags: ${{ secrets.NDC_DOCKER }}/tp-devops-simple-api-backend:latest
           push: true
 
       # Build and push the database Docker image
@@ -41,7 +41,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: ./database
-          tags: ${{ secrets.NCD_DOCKER }}/tp-devops-simple-api-database:latest
+          tags: ${{ secrets.NDC_DOCKER }}/tp-devops-simple-api-database:latest
           push: true
 
       # Build and push the httpd Docker image
@@ -49,5 +49,5 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: ./http-server
-          tags: ${{ secrets.NCD_DOCKER }}/tp-devops-simple-api-httpd:latest
+          tags: ${{ secrets.NDC_DOCKER }}/tp-devops-simple-api-httpd:latest
           push: true
