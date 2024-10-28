@@ -17,21 +17,23 @@ jobs:
           java-version: '17'
       - name: Build and test with Maven
         run: mvn clean install --file simple-api/pom.xml
-  # define job to build and publish docker image
+
   build-and-push-docker-image:
     needs: test-backend
     runs-on: ubuntu-22.04
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2.5.0
+
+      - name: Login to DockerHub
+        run: docker login -u ${{ secrets.NCD_DOCKER }} -p ${{ secrets.MDP_DOCKER }}
 
       # Build and push the backend Docker image
       - name: Build image and push backend
         uses: docker/build-push-action@v3
         with:
           context: ./simple-api
-          tags: ${{secrets.NDC_DOCKER}}/tp-devops-simple-api-backend:latest
+          tags: ${{ secrets.NCD_DOCKER }}/tp-devops-simple-api-backend:latest
           push: true
 
       # Build and push the database Docker image
@@ -39,7 +41,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: ./database
-          tags: ${{secrets.NDC_DOCKER}}/tp-devops-simple-api-database:latest
+          tags: ${{ secrets.NCD_DOCKER }}/tp-devops-simple-api-database:latest
           push: true
 
       # Build and push the httpd Docker image
@@ -47,5 +49,5 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: ./http-server
-          tags: ${{secrets.NDC_DOCKER}}/tp-devops-simple-api-httpd:latest
+          tags: ${{ secrets.NCD_DOCKER }}/tp-devops-simple-api-httpd:latest
           push: true
