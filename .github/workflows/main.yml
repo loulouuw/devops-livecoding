@@ -34,7 +34,7 @@ jobs:
         with:
           context: ./simple-api
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-simple-api-backend:latest
-          push: true
+          push: ${{ github.ref == 'refs/heads/main' }}
 
       # Build and push the database Docker image
       - name: Build image and push database
@@ -42,7 +42,7 @@ jobs:
         with:
           context: ./database
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-simple-api-database:latest
-          push: true
+          push: ${{ github.ref == 'refs/heads/main' }}
 
       # Build and push the httpd Docker image
       - name: Build image and push httpd
@@ -50,4 +50,4 @@ jobs:
         with:
           context: ./http-server
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-simple-api-httpd:latest
-          push: true
+          push: ${{ github.ref == 'refs/heads/main' }}
